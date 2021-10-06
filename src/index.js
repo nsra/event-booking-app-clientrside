@@ -29,7 +29,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://still-spire-78621.herokuapp.com/graphql',
+  uri: 'wss://still-spire-78621.herokuapp.com/graphql',
   options: {
     reconnect: true
   }
