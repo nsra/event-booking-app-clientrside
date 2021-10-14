@@ -28,7 +28,7 @@ export default function EventsPage() {
                 const addedEvent = subscriptionData.data.eventAdded;
                 setAlert(`حدث جديد بعنوان: ${addedEvent.title}، أُضيف للتو`);
             }
-            // if (subscriptionData.errors) setAlert("خطأ في جلب الأحداث الجديدة");
+            if (subscriptionData.errors) setAlert("خطأ في جلب الأحداث الجديدة");
         }
     })
 
