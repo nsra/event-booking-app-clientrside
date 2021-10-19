@@ -27,6 +27,7 @@ export default function EventsPage() {
             if (subscriptionData.data) {
                 const addedEvent = subscriptionData.data.eventAdded 
                 setAlert(`حدث جديد بعنوان: ${addedEvent.title}، أُضيف للتو`) 
+                window.scrollTo(0, 0)
             }
             if (subscriptionData.errors) setAlert("خطأ في جلب الأحداث الجديدة") 
         }
@@ -184,7 +185,8 @@ export default function EventsPage() {
                     onConfirm={() => {
                         bookEventHandler({ variables: { eventId: selectedEvent._id } }) 
                     }}
-                    confirmText={value.token ? 'احجز' : <NavLink to='/auth'>سجل دخول لتحجز</NavLink>}
+                    confirmText={value.token ? 'احجز' : <NavLink to='/login'>سجل دخول لتحجز</NavLink>}
+                    isDisabled = {selectedEvent.creator._id === value.userId ? true : false }
                 >
                     <h1>{selectedEvent.title}</h1>
                     <h2>

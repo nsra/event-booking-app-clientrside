@@ -23,16 +23,16 @@ export default function LoginPage() {
                 const userId = data.login.userId 
                 const username = data.login.username
                 value.login(token, userId, username) 
-                console.log(data.login)
             }
         }, [data, loading]) 
 
         if (loading) return <Spinner /> 
 
         return (
-            <form className='auth-form' onSubmit={() => {
+            <form className='auth-form' onSubmit={(event) => {
+                event.preventDefault()
                 login({
-                    variables: { email: email, password: password }
+                    variables: { email: email.trim(), password: password.trim() }
                 })
             }}>
                 <Error error={alert} />

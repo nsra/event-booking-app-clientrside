@@ -1,35 +1,46 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext,useEffect } from 'react'
 import { useMutation } from '@apollo/client'
-import { CREATE_USER } from '../queries'
+import { CREATE_USER} from '../queries'
 import Error from '../components/Error'
 import Spinner from '../components/Spinner'
+import AuthContext from '../context/auth-context' 
 
 export default function SignUpPage() {
     const [alert, setAlert] = useState("")
+    const value = useContext(AuthContext) 
 
     function SignUp() {
         const [username, setUsername] = useState("")
         const [email, setEmail] = useState("")
         const [password, setPassword] = useState("")
-        const history = useHistory();
-        const [auth, { loading }] = useMutation(CREATE_USER, {
+        const [signup, { loading, data }] = useMutation(CREATE_USER, {
             onError: (error) => setAlert(error.message),
             onCompleted: () => {
                 setAlert("تم إنشاء الحساب بنجاح")
             }
         })
 
-        if (loading) return <Spinner />
+        useEffect(() => {
+            if (!loading && data) {
+                const token = data.createUser.token 
+                const userId = data.createUser.userId 
+                const username = data.createUser.username
+                value.login(token, userId, username) 
+                console.log(data.createUser)
+            }
+        }, [data, loading]) 
+
+        if (loading) return <Spinner /> 
 
         return (
-            <form className='auth-form' onSubmit={() => {
+            <form className='auth-form' onSubmit={(event) => {
+                event.preventDefault()
                 if (username.trim().length < 3 || password.trim().length < 6) {
                     setAlert("يجب ملئ جميع الحقول بالشكل الصحيح!")
-                    return
+                    return;
                 }
-                auth({
-                    variables: { username: username, email: email, password: password }
+                signup({
+                    variables: { username: username.trim(), email: email.trim(), password: password.trim() }
                 })
             }}>
                 <Error error={alert} />
@@ -65,9 +76,6 @@ export default function SignUpPage() {
                 </div>
                 <div className='form-actions'>
                     <button type='submit' className="submit-btn">إرسال</button>
-                    <button onClick={() => history.push('/login')}>
-                        انتقل إلى تسجيل الدخول 
-                    </button>
                 </div>
             </form>
         )
@@ -77,4 +85,3 @@ export default function SignUpPage() {
         <SignUp />
     )
 }
-

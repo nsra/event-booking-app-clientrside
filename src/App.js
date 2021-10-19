@@ -6,7 +6,8 @@ import LoginPage from './pages/Login'
 import EventsPage from './pages/Events' 
 import BookingsPage from './pages/Bookings' 
 import SignUpPage from './pages/SignUp' 
-import AuthContext from './context/auth-context' 
+import AuthContext from './context/auth-context'
+import PrivateRoute from './components/PrivateRoute' 
 
 function App() {
   let [token, setToken] = useState(null) 
@@ -48,9 +49,10 @@ function App() {
               {token && <Route path='/bookings' component={BookingsPage} />}
               <Redirect from='/' to='/events' exact />
               {token && <Redirect from='/login' to='/events' />}
+              {token && <Redirect from='/signup' to='/events' />}
               <Route path='/events' component={EventsPage} />
-              <Route path='/signUp' component={SignUpPage} />
-              {!localStorage.getItem('token') && <Redirect from='/bookings' to='/login' />}
+              <Route path='/signup' component={SignUpPage} />
+              <PrivateRoute path='/bookings' component={BookingsPage} />
             </Switch>
           </main>
         </AuthContext.Provider>
