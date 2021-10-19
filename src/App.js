@@ -1,6 +1,6 @@
 import React, { useState } from 'react' 
 import './App.css' 
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom' 
 import Navbar from './components/Navbar' 
 import LoginPage from './pages/Login' 
 import EventsPage from './pages/Events' 
@@ -54,4 +54,3 @@ function App() {
 }
 
 export default App 
-

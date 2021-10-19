@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom' 
 import './index.css' 
 import "bootstrap/dist/js/bootstrap.min.js"
-import "bootstrap/dist/css/bootstrap.rtl.min.css"
-
 import App from './App' 
 import { ApolloClient, HttpLink, InMemoryCache, ApolloProvider, split } from "@apollo/client" 
 import { getMainDefinition } from "@apollo/client/utilities" 
@@ -12,7 +10,7 @@ import { setContext } from "apollo-link-context"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css" 
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://still-spire-78621.herokuapp.com/graphql',
   credentials: 'same-origin'
 }) 
 const authLink = setContext((_, { headers }) => {
@@ -26,7 +24,7 @@ const authLink = setContext((_, { headers }) => {
 }) 
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
+  uri: 'wss://still-spire-78621.herokuapp.com/graphql',
   options: {
     reconnect: true
   }
