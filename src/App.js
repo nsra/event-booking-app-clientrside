@@ -44,7 +44,7 @@ function App() {
               {token && <Redirect from='/signup' to='/events' />}
               <Route path='/events' component={EventsPage} />
               <Route path='/signup' component={SignUpPage} />
-              <PrivateRoute path='/bookings' component={BookingsPage} />
+              {token && <Redirect from='/bookings' to='/login' />}
             </Switch>
           </main>
         </AuthContext.Provider>
