@@ -1,9 +1,10 @@
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
-
-export default function PrivateRoute({ path, component }) {
-    const token = localStorage.getItem('token') || ""
-    if (!token) return <Redirect to="/login" />
+import React, { useContext } from 'react'
+import { Navigate } from 'react-router-dom'
+import AuthContext from '../context/auth-context'
+ 
+export default function PrivateRoute({path, children }){
+    const value = useContext(AuthContext)
+    if(value.token && ( path === 'login' || 'signup')) return <Navigate replace to="/events" />
     else
-    return <Route path={path} component={component} />;
+    return (!value.token) ? <Navigate replace to="/login" /> :  children ;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react' 
 import './App.css' 
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom' 
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom' 
 import Navbar from './components/Navbar' 
 import LoginPage from './pages/Login' 
 import EventsPage from './pages/Events' 
@@ -36,16 +36,32 @@ function App() {
         <AuthContext.Provider value={{ token, userId, username, login, logout }}>
           <Navbar />
           <main className="main-content">
-            <Switch>
-              {!token && <Route path='/login' component={LoginPage} />}
-              {token && <Route path='/bookings' component={BookingsPage} />}
-              <Redirect from='/' to='/events' exact />
-              {token && <Redirect from='/login' to='/events' />}
-              {token && <Redirect from='/signup' to='/events' />}
-              <Route path='/events' component={EventsPage} />
-              <Route path='/signup' component={SignUpPage} />
-              {token && <Redirect from='/bookings' to='/login' />}
-            </Switch>
+          <Routes>
+            {!token && <Route path='/login' element={<LoginPage />} />}
+            <Route path="/" element={<Navigate replace to="/events" />} exact />
+          
+            <Route path='/events' element={<EventsPage />} />
+            <Route path='/signup' element={<SignUpPage />} />
+
+            <Route path='/bookings' element={
+              <PrivateRoute>
+                <BookingsPage />
+              </PrivateRoute>
+            } />
+
+            <Route path='/login' element={
+              <PrivateRoute path='login'>
+                <EventsPage />
+              </PrivateRoute>
+            } />
+
+            <Route path='/signup' element={
+              <PrivateRoute path='signup'>
+                <EventsPage />
+              </PrivateRoute>
+            } />
+
+          </Routes>
           </main>
         </AuthContext.Provider>
       </React.Fragment>
