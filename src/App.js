@@ -37,27 +37,22 @@ function App() {
           <Navbar />
           <main className="main-content">
           <Routes>
-            {!token && <Route path='/login' element={<LoginPage />} />}
-            <Route path="/" element={<Navigate replace to="/events" />} exact />
-          
-            <Route path='/events' element={<EventsPage />} />
-            <Route path='/signup' element={<SignUpPage />} />
 
+            {token && <Route path="/login" element={<Navigate replace to="/events" />} exact />}
+            {<Route path='/login' element={<LoginPage />} />}
+
+            {token && <Route path="/signup" element={<Navigate replace to="/events" />} exact />}
+            {<Route path='/signup' element={<SignUpPage />} exact />}
+            
+            <Route path="/" element={<Navigate replace to="/events" />} exact />
+            <Route path='/events' element={<EventsPage />} />
+
+            {!token && <Route path="/bookings" element={<Navigate replace to="/login" />} exact />}
+            {<Route path='/bookings' element={<BookingsPage />} />}
+            // the same as
             <Route path='/bookings' element={
               <PrivateRoute>
                 <BookingsPage />
-              </PrivateRoute>
-            } />
-
-            <Route path='/login' element={
-              <PrivateRoute path='login'>
-                <EventsPage />
-              </PrivateRoute>
-            } />
-
-            <Route path='/signup' element={
-              <PrivateRoute path='signup'>
-                <EventsPage />
               </PrivateRoute>
             } />
 
