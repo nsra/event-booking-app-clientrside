@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
 import AuthContext from '../context/auth-context'
@@ -13,7 +13,7 @@ export default function LoginPage() {
     function Login() {
         const [email, setEmail] = useState("")
         const [password, setPassword] = useState("")
-        const navigate = useNavigate();
+        const navigate = useNavigate()
         const [login, { loading, data }] = useMutation(LOGIN, {
             onError: (error) => setAlert(error.message)
         })

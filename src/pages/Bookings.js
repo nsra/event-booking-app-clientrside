@@ -16,39 +16,39 @@ export default function BookingsPage () {
         if (loading) { return <Spinner /> }
         if (error) {
             setAlert(error.message)
-            return;
+            return
         }
 
-        client.refetchQueries({
-            include: "all",
-        })
+        if(data){
+            client.refetchQueries({
+                include: ["Bookings"]
+            })
+        }
 
         return (
-            <React.Fragment>
+            <div>
                 <Error error={alert} />
-                { cancelBookingLoading ? (
-                    <Spinner />
-                ) : (
-                    <div className="row">
-                        <div className="col-md-8 offset-md-2">
-                            {data.bookings.map(booking => (
-                                <BookingItem
-                                    key={booking._id}
-                                    {...booking}
-                                    onCancelBooking={() => {
-                                        canceledBooking = booking._id
-                                        cancelBooking({ variables: { bookingId: canceledBooking } })
-                                    }}
-                                />
-                            ))}
-                        </div>
+               
+                <div className="row">
+                    <div className="col-md-8 offset-md-2">
+                        {data.bookings.map(booking => (
+                            <BookingItem
+                                key={booking._id}
+                                {...booking}
+                                onCancelBooking={() => {
+                                    canceledBooking = booking._id
+                                    cancelBooking({ variables: { bookingId: canceledBooking } })
+                                }}
+                            />
+                        ))}
                     </div>
-                )}
-            </React.Fragment>
+                </div>
+                
+            </div>
         )
     }
 
-    const [cancelBooking, { cancelBookingLoading }] = useMutation(CANCEL_BOOKING, {
+    const [cancelBooking ] = useMutation(CANCEL_BOOKING, {
         onError: (error) => setAlert(error.message),
         onCompleted: () => {
             setAlert("تم إلغاء حجزك")

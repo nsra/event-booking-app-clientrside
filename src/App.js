@@ -9,7 +9,7 @@ import SignUpPage from './pages/SignUp'
 import AuthContext from './context/auth-context'
 import PrivateRoute from './components/PrivateRoute' 
 
-function App() {
+export default function App() {
   let [token, setToken] = useState(localStorage.getItem('token') || '') 
   let [userId, setUserId] = useState(localStorage.getItem('userId') || '') 
   let [username, setUsername] = useState(localStorage.getItem('username') || '') 
@@ -32,30 +32,27 @@ function App() {
 
   return (
     <BrowserRouter>
-      <React.Fragment>
-        <AuthContext.Provider value={{ token, userId, username, login, logout }}>
-          <Navbar />
-          <main className="main-content">
-          <Routes>
-            {token && <Route path="/login" element={<Navigate replace to="/events" />} exact />}
-            <Route path='/login' element={<LoginPage />} />
-            {token && <Route path="/signup" element={<Navigate replace to="/events" />} exact />}
-            <Route path='/signup' element={<SignUpPage />} exact />
-            <Route path="/" element={<Navigate replace to="/events" />} exact />
-            <Route path='/events' element={<EventsPage />} />
-         
-            <Route path='/bookings' element={
-              <PrivateRoute>
-                <BookingsPage />
-              </PrivateRoute>
-            } />
-
-          </Routes>
-          </main>
-        </AuthContext.Provider>
-      </React.Fragment>
+      <AuthContext.Provider value={{ token, userId, username, login, logout }}>
+        <Navbar />
+        <main className="main-content">
+        <Routes>
+          {token && <Route path="/login" element={<Navigate replace to="/events" />} exact />}
+          <Route path='/login' element={<LoginPage />} />
+          {token && <Route path="/signup" element={<Navigate replace to="/events" />} exact />}
+          <Route path='/signup' element={<SignUpPage />} exact />
+          <Route path="/" element={<Navigate replace to="/events" />} exact />
+          <Route path='/events' element={<EventsPage />} />
+        
+          <Route path='/bookings' element={
+            <PrivateRoute>
+              <BookingsPage />
+            </PrivateRoute>
+          } />
+          
+        </Routes>
+        </main>
+      </AuthContext.Provider>
     </BrowserRouter>
   ) 
 }
 
-export default App 
