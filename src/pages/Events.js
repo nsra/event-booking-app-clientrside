@@ -117,7 +117,7 @@ export default function EventsPage() {
                 </div>
             )}
             <div>
-                <h2 className="mb-3">المناسبات من حولك!</h2>
+                <h2 className="mb-3">المناسبات من حوولك!</h2>
                 <EventList />
             </div>
             {creating && (
