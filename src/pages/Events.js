@@ -101,7 +101,6 @@ export default function EventsPage() {
     }
     const showDetailHandler = eventId => {
         const clickedEvent = events.find(event => event._id === eventId)
-        console.log(clickedEvent.date)
         setSelectedEvent(clickedEvent)
     }
 

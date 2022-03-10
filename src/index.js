@@ -11,7 +11,7 @@ import { setContext } from "apollo-link-context"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css" 
 
 const httpLink = createHttpLink({
-  uri: 'https://still-spire-78621.herokuapp.com/graphql', 
+  uri: 'https://desolate-sands-78628.herokuapp.com/graphql', 
   credentials: 'same-origin'
 }) 
 const authLink = setContext((_, { headers }) => {
@@ -25,7 +25,7 @@ const authLink = setContext((_, { headers }) => {
 }) 
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://still-spire-78621.herokuapp.com/graphql',
+  uri: 'wss://desolate-sands-78628.herokuapp.com/graphql',
   options: {
     reconnect: true
   }
