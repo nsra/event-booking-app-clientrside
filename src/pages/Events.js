@@ -20,7 +20,6 @@ export default function EventsPage() {
     const [date, setDate] = useState("")
     const [description, setDescription] = useState("")
     const client = useApolloClient()
-
     useSubscription(EVENT_ADDED, {
         onSubscriptionData: async ({ subscriptionData }) => {
             if (subscriptionData.data) {
@@ -47,6 +46,10 @@ export default function EventsPage() {
             return
         }
 
+        client.refetchQueries({
+            include: ["Events"],
+        })
+
         return (
             <div className="container-fluid">
                 <div className="row justify-content-center">
@@ -54,7 +57,6 @@ export default function EventsPage() {
                         <EventItem
                             key={event._id}
                             {...event}
-                            userId={value.userId}
                             onDetail={showDetailHandler}
                         />
                     ))}
@@ -73,9 +75,6 @@ export default function EventsPage() {
             setSelectedEvent(null)
             setAlert("تم حجز المناسبة بنجاح")
             window.scrollTo(0, 0)
-            client.refetchQueries({
-                include: "Bookings",
-            })
         }
     })
 
@@ -102,6 +101,7 @@ export default function EventsPage() {
     }
     const showDetailHandler = eventId => {
         const clickedEvent = events.find(event => event._id === eventId)
+        console.log(clickedEvent.date)
         setSelectedEvent(clickedEvent)
     }
 
@@ -177,7 +177,7 @@ export default function EventsPage() {
                             <input
                                 className="form-control"
                                 required
-                                type='date'
+                                type='datetime-local'
                                 id='date'
                                 value={date}
                                 onChange={({ target }) => setDate(target.value)}
@@ -212,8 +212,7 @@ export default function EventsPage() {
                 >
                     <h4 className='mb-4'>{selectedEvent.title}</h4>
                     <h4 className='mb-4'>
-                        ${selectedEvent.price} -{' '}
-                        {new Date(selectedEvent.date).toLocaleDateString()}
+                        ${selectedEvent.price} {'-'} {selectedEvent.date.split('.')[0].replace(/-/g, "/")}
                     </h4>
                     <p>{selectedEvent.description}</p>
                 </SimpleModal>
