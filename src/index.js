@@ -12,12 +12,12 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql', 
+  uri: 'https://desolate-sands-78628.herokuapp.com', 
   credentials: 'same-origin'
 }) 
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/graphql',
+  url: 'wss://desolate-sands-78628.herokuapp.com',
   connectionParams: {
     authToken: localStorage.getItem('token'),
   },
