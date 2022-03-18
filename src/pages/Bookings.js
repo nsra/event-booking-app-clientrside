@@ -7,7 +7,6 @@ import Error from '../components/Error'
 
 export default function BookingsPage () {
     const [alert, setAlert] = useState("")
-    let canceledBooking = ""
     const client = useApolloClient()
 
     function BookingsList() {
@@ -33,8 +32,7 @@ export default function BookingsPage () {
                                 key={booking._id}
                                 {...booking}
                                 onCancelBooking={() => {
-                                    canceledBooking = booking._id
-                                    cancelBooking({ variables: { bookingId: canceledBooking } })
+                                    cancelBooking({ variables: { bookingId: booking._id } })
                                 }}
                             />
                         ))}
